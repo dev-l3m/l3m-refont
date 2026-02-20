@@ -8,7 +8,7 @@ import { TransitionLink } from "@/components/transitions/transition-link";
 import { L3M_CONTENT } from "@/src/content/l3m-legacy-content";
 
 // Ne pas afficher les rails pour les pages admin/login et admin/register
-const ADMIN_AUTH_PAGES = ["/admin/login", "/admin/register", "/admin", "/admin/newsletter","/admin/users","/admin/settings","/admin/appointments"];
+const ADMIN_AUTH_PAGES = ["/admin/login", "/admin/register", "/admin", "/admin/newsletter","/admin/users","/admin/settings","/admin/appointments","/admin/partnerships"];
 
 const navigation = [
   { name: "Accueil", href: "/" },

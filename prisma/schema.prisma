@@ -160,3 +160,28 @@ model NewsletterCampaign {
   @@index([status])
   @@index([sentAt])
 }
+
+model PartnershipRequest {
+  id                      String   @id @default(cuid())
+  nomComplet              String
+  email                   String
+  telephone               String
+  typeProfil             String?   // Type de profil sélectionné
+  objectifsInvestissement String?  @db.Text
+  budgetEstime           String?   // Budget estimé / Capital à investir
+  delaiMiseEnOeuvre      String?   // Délai de mise en œuvre souhaité
+  messageComplementaire   String?   @db.Text
+  accepteDonnees          Boolean   @default(false)
+  // Status
+  status                  String   @default("pending") // pending, reviewed, contacted, archived
+  notes                   String?  @db.Text
+  reviewedAt              DateTime?
+  reviewedBy              String?
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+
+  @@map("partnership_requests")
+  @@index([email])
+  @@index([status])
+  @@index([createdAt])
+}

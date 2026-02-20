@@ -12,10 +12,14 @@
     "db:push": "prisma db push",
     "db:migrate": "prisma migrate dev",
     "db:seed": "tsx prisma/seed.ts",
+    "db:reset": "prisma migrate reset --force && npm run db:seed",
     "db:studio": "prisma studio",
     "prepare": "husky",
     "pre-commit": "lint-staged",
     "pre-push": "npm run type-check && npm run lint"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   },
   "lint-staged": {
     "*.{ts,tsx}": [

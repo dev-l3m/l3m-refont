@@ -3,7 +3,9 @@
 import { TransitionLink } from "@/components/transitions/transition-link";
 import { FadeIn } from "@/components/animations/fade-in";
 import Link from "next/link";
-import { MouseEvent } from "react";
+import { MouseEvent, useState } from "react";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { PartnershipForm } from "@/components/forms/partnership-form";
 
 interface EditorialHeroProps {
   title: string;
@@ -12,6 +14,8 @@ interface EditorialHeroProps {
 }
 
 export function EditorialHero({ title, subtitle, content }: EditorialHeroProps) {
+  const [partnershipDialogOpen, setPartnershipDialogOpen] = useState(false);
+
   // Parse le contenu pour identifier les mots à accentuer et les liens
   const parseContent = (text: string) => {
     if (!text) return null;
@@ -117,19 +121,24 @@ export function EditorialHero({ title, subtitle, content }: EditorialHeroProps) 
             )}
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 mt-8">
-              <Link
-                href="/solutions"
-                className="bg-accent hover:bg-accent-dark text-white font-sans font-medium rounded-lg px-6 py-3 transition-all duration-300 text-center"
-              >
-                Découvrir nos solutions
-              </Link>
-              <Link
-                href="#contact"
-                onClick={handleContactClick}
+              <a
+                href="https://l3m.factorial.fr/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="border-2 border-accent bg-transparent hover:bg-accent hover:text-white text-accent font-sans font-medium rounded-lg px-6 py-3 transition-all duration-300 text-center"
               >
-                Nous contacter
-              </Link>
+                Rejoindre nos équipes
+              </a>
+              <Dialog open={partnershipDialogOpen} onOpenChange={setPartnershipDialogOpen}>
+                <DialogTrigger asChild>
+                  <button className="bg-accent hover:bg-accent-dark text-white font-sans font-medium rounded-lg px-6 py-3 transition-all duration-300 text-center">
+                    Devenir partenaire
+                  </button>
+                </DialogTrigger>
+                <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+                  <PartnershipForm onClose={() => setPartnershipDialogOpen(false)} />
+                </DialogContent>
+              </Dialog>
             </div>
           </div>
         </FadeIn>

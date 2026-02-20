@@ -26,6 +26,7 @@ const navigation = [
   // { name: "Actualités", href: "/admin/posts", icon: Newspaper },
   // { name: "Équipe", href: "/admin/team", icon: Users },
   { name: "Demandes de rendez-vous", href: "/admin/appointments", icon: Calendar },
+  { name: "Demandes de partenariat", href: "/admin/partnerships", icon: Briefcase },
   { name: "Newsletter", href: "/admin/newsletter", icon: Mail },
   { name: "Utilisateurs", href: "/admin/users", icon: UserPlus },
   // { name: "Paramètres", href: "/admin/settings", icon: Settings },

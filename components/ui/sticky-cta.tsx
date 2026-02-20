@@ -3,10 +3,13 @@
 import { useState, useEffect, MouseEvent } from "react";
 import Link from "next/link";
 import { X } from "lucide-react";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { PartnershipForm } from "@/components/forms/partnership-form";
 
 export function StickyCta() {
   const [isVisible, setIsVisible] = useState(false);
   const [isDismissed, setIsDismissed] = useState(true);
+  const [partnershipDialogOpen, setPartnershipDialogOpen] = useState(false);
 
   useEffect(() => {
     // Vérifier si le CTA a été dismissé
@@ -67,20 +70,25 @@ export function StickyCta() {
       }`}
     >
       <div className="flex items-center gap-3">
-        <Link
-          href="/solutions"
+        <a
+          href="https://l3m.factorial.fr/"
+          target="_blank"
+          rel="noopener noreferrer"
           className="text-sm font-sans font-medium text-ink hover:text-accent transition-colors duration-200 px-2 py-1"
         >
-          Solutions
-        </Link>
+          Équipes
+        </a>
         <div className="w-px h-4 bg-rail" />
-        <Link
-          href="#contact"
-          onClick={handleContactClick}
-          className="text-sm font-sans font-medium text-ink hover:text-accent transition-colors duration-200 px-2 py-1"
-        >
-          Contact
-        </Link>
+        <Dialog open={partnershipDialogOpen} onOpenChange={setPartnershipDialogOpen}>
+          <DialogTrigger asChild>
+            <button className="text-sm font-sans font-medium text-ink hover:text-accent transition-colors duration-200 px-2 py-1">
+              Partenaire
+            </button>
+          </DialogTrigger>
+          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+            <PartnershipForm onClose={() => setPartnershipDialogOpen(false)} />
+          </DialogContent>
+        </Dialog>
         <button
           onClick={handleDismiss}
           className="ml-1 p-1 hover:bg-sand rounded-full transition-colors duration-200"

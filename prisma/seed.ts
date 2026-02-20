@@ -35,52 +35,71 @@ async function main() {
     },
   });
 
-  // Create homepage sections
-  const heroSection = await prisma.section.create({
-    data: {
-      pageId: homepage.id,
-      type: 'hero',
-      title: 'L3M Holding',
-      subtitle: 'Investissement & Développement Stratégique',
-      content: 'Nous accompagnons les entreprises dans leur développement et leur croissance à travers une approche stratégique et un investissement ciblé.',
-      order: 0,
-      visible: true,
-    },
+  // Create homepage sections (skip if already exist)
+  const existingHeroSection = await prisma.section.findFirst({
+    where: { pageId: homepage.id, type: 'hero' },
   });
 
-  const aboutSection = await prisma.section.create({
-    data: {
-      pageId: homepage.id,
-      type: 'about',
-      title: 'À propos du Groupe',
-      subtitle: 'Notre Vision',
-      content: 'L3M Holding est une société d\'investissement et de développement stratégique qui accompagne les entreprises dans leur croissance. Nous combinons expertise sectorielle, vision stratégique et accompagnement opérationnel pour créer de la valeur durable.',
-      order: 1,
-      visible: true,
-    },
-  });
-
-  // Create metrics
-  const metrics = [
-    { label: 'Années d\'expérience', value: '15', suffix: '+', description: 'd\'expertise en investissement stratégique' },
-    { label: 'Filiales', value: '8', suffix: '', description: 'entreprises dans notre portefeuille' },
-    { label: 'Investissements', value: '50', suffix: 'M€', description: 'de capital investi' },
-    { label: 'Croissance moyenne', value: '25', suffix: '%', description: 'par an sur les 5 dernières années' },
-  ];
-
-  for (const [index, metric] of metrics.entries()) {
-    await prisma.metric.create({
+  if (!existingHeroSection) {
+    await prisma.section.create({
       data: {
-        label: metric.label,
-        value: metric.value,
-        suffix: metric.suffix,
-        description: metric.description,
-        order: index,
+        pageId: homepage.id,
+        type: 'hero',
+        title: 'L3M Holding',
+        subtitle: 'Investissement & Développement Stratégique',
+        content: 'Nous accompagnons les entreprises dans leur développement et leur croissance à travers une approche stratégique et un investissement ciblé.',
+        order: 0,
         visible: true,
       },
     });
+    console.log('✅ Hero section created');
   }
-  console.log('✅ Metrics created');
+
+  const existingAboutSection = await prisma.section.findFirst({
+    where: { pageId: homepage.id, type: 'about' },
+  });
+
+  if (!existingAboutSection) {
+    await prisma.section.create({
+      data: {
+        pageId: homepage.id,
+        type: 'about',
+        title: 'À propos du Groupe',
+        subtitle: 'Notre Vision',
+        content: 'L3M Holding est une société d\'investissement et de développement stratégique qui accompagne les entreprises dans leur croissance. Nous combinons expertise sectorielle, vision stratégique et accompagnement opérationnel pour créer de la valeur durable.',
+        order: 1,
+        visible: true,
+      },
+    });
+    console.log('✅ About section created');
+  }
+
+  // Create metrics (skip if already exist)
+  const existingMetricsCount = await prisma.metric.count();
+  if (existingMetricsCount === 0) {
+    const metrics = [
+      { label: 'Années d\'expérience', value: '15', suffix: '+', description: 'd\'expertise en investissement stratégique' },
+      { label: 'Filiales', value: '8', suffix: '', description: 'entreprises dans notre portefeuille' },
+      { label: 'Investissements', value: '50', suffix: 'M€', description: 'de capital investi' },
+      { label: 'Croissance moyenne', value: '25', suffix: '%', description: 'par an sur les 5 dernières années' },
+    ];
+
+    for (const [index, metric] of metrics.entries()) {
+      await prisma.metric.create({
+        data: {
+          label: metric.label,
+          value: metric.value,
+          suffix: metric.suffix,
+          description: metric.description,
+          order: index,
+          visible: true,
+        },
+      });
+    }
+    console.log('✅ Metrics created');
+  } else {
+    console.log('⏭️  Metrics already exist, skipping...');
+  }
 
   // Create site settings
   const settings = [
@@ -90,7 +109,7 @@ async function main() {
     { key: 'contact_phone', value: '+33 1 XX XX XX XX', type: 'text' },
     { key: 'contact_address', value: 'Paris, France', type: 'text' },
     { key: 'social_linkedin', value: 'https://linkedin.com/company/l3m-holding', type: 'text' },
-    { key: 'social_twitter', value: 'https://twitter.com/l3mholding', type: 'text' },
+    { key: 'social_facebook', value: 'https://www.facebook.com/profile.php?id=61578880743766&mibextid=LQQJ4d&rdid=vGfzFPoBDvYdP2Sk&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F192gpE1Hej%2F%3Fmibextid%3DLQQJ4d#', type: 'text' },
   ];
 
   for (const setting of settings) {

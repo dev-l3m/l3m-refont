@@ -61,9 +61,9 @@ export async function Footer() {
                   </svg>
                 </a>
               )}
-              {settingsMap.social_twitter && (
+              {settingsMap.social_facebook && (
                 <a
-                  href={settingsMap.social_twitter}
+                  href={settingsMap.social_facebook}
                   className="text-sand-light/60 hover:text-accent transition-colors duration-250"
                   target="_blank"
                   rel="noopener noreferrer"
