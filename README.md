@@ -287,24 +287,6 @@ Le site inclut :
 - ✅ Robots.txt
 - ✅ Structured Data JSON-LD (Organization, WebSite)
 
-## 🚀 Déploiement
-
-### Vercel (Recommandé)
-
-1. Connecter le repository GitHub à Vercel
-2. Configurer les variables d'environnement :
-   - `DATABASE_URL`
-   - `NEXT_PUBLIC_SITE_URL`
-3. Vercel détectera automatiquement Next.js et déploiera
-
-### Variables d'environnement Production
-
-```env
-DATABASE_URL="postgresql://..."
-NEXT_PUBLIC_SITE_URL="https://www.l3m-holding.net"
-NEXTAUTH_URL="https://www.l3m-holding.net"
-NEXTAUTH_SECRET="your-secret-key"
-```
 
 ### Build Production
 
