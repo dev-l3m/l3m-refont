@@ -9,6 +9,7 @@ import { Joinus } from "@/components/sections/joinus";
 import { Contact as ContactSection } from "@/components/sections/contact";
 import { Metrics } from "@/components/sections/metrics";
 import { ScrollToTop } from "@/components/ui/scroll-to-top";
+import { StickyCta } from "@/components/ui/sticky-cta";
 import { prisma } from "@/lib/prisma";
 import { L3M_CONTENT } from "@/src/content/l3m-legacy-content";
 import { Footer } from "@/components/layout/footer";
@@ -98,7 +99,8 @@ export default async function HomePage() {
         addressLabel={L3M_CONTENT.contact.addressLabel}
         address={[...L3M_CONTENT.contact.address]}
       />
-       <ScrollToTop />
+      <ScrollToTop />
+      <StickyCta />
       <Footer />
      
     </>

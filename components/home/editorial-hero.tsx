@@ -2,6 +2,8 @@
 
 import { TransitionLink } from "@/components/transitions/transition-link";
 import { FadeIn } from "@/components/animations/fade-in";
+import Link from "next/link";
+import { MouseEvent } from "react";
 
 interface EditorialHeroProps {
   title: string;
@@ -82,6 +84,14 @@ export function EditorialHero({ title, subtitle, content }: EditorialHeroProps) 
 
   const parsedContent = content ? parseContent(content) : null;
 
+  const handleContactClick = (e: MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const contactSection = document.getElementById("contact");
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   return (
     <section className="min-h-[85vh] flex items-center bg-sand pt-20 lg:pt-0">
       <div className="w-full max-w-7xl mx-auto px-6 lg:px-16 py-24 lg:py-32">
@@ -105,6 +115,22 @@ export function EditorialHero({ title, subtitle, content }: EditorialHeroProps) 
                 {content}
               </p>
             )}
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 mt-8">
+              <Link
+                href="/solutions"
+                className="bg-accent hover:bg-accent-dark text-white font-sans font-medium rounded-lg px-6 py-3 transition-all duration-300 text-center"
+              >
+                Découvrir nos solutions
+              </Link>
+              <Link
+                href="#contact"
+                onClick={handleContactClick}
+                className="border-2 border-accent bg-transparent hover:bg-accent hover:text-white text-accent font-sans font-medium rounded-lg px-6 py-3 transition-all duration-300 text-center"
+              >
+                Nous contacter
+              </Link>
+            </div>
           </div>
         </FadeIn>
       </div>
