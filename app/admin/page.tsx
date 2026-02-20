@@ -6,6 +6,8 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { DashboardCharts } from "./dashboard-charts";
 
+export const dynamic = 'force-dynamic';
+
 export default async function AdminDashboard() {
   const session = await getServerSession();
   

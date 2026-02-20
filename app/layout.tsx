@@ -23,16 +23,24 @@ const cormorant = Cormorant_Garamond({
 });
 
 export async function generateMetadata(): Promise<Metadata> {
-  const settings = await prisma.siteSettings.findMany({
-    where: {
-      key: {
-        in: ['site_name', 'site_description'],
+  let siteName = 'L3M Holding';
+  let siteDescription = 'Investissement & Développement Stratégique';
+  
+  try {
+    const settings = await prisma.siteSettings.findMany({
+      where: {
+        key: {
+          in: ['site_name', 'site_description'],
+        },
       },
-    },
-  });
+    });
 
-  const siteName = settings.find(s => s.key === 'site_name')?.value || 'L3M Holding';
-  const siteDescription = settings.find(s => s.key === 'site_description')?.value || 'Investissement & Développement Stratégique';
+    siteName = settings.find(s => s.key === 'site_name')?.value || 'L3M Holding';
+    siteDescription = settings.find(s => s.key === 'site_description')?.value || 'Investissement & Développement Stratégique';
+  } catch (error) {
+    // La DB n'est pas disponible pendant le build, on utilise les valeurs par défaut
+    console.log('Database not available during build, using default metadata');
+  }
 
   return {
     title: {

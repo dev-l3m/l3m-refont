@@ -5,18 +5,25 @@ import { Facebook } from "lucide-react";
 import { NewsletterForm } from "./newsletter-form";
 
 export async function Footer() {
-  const settings = await prisma.siteSettings.findMany({
-    where: {
-      key: {
-        in: ['contact_email', 'contact_phone', 'contact_address', 'social_linkedin', 'social_twitter'],
+  let settingsMap: Record<string, string> = {};
+  
+  try {
+    const settings = await prisma.siteSettings.findMany({
+      where: {
+        key: {
+          in: ['contact_email', 'contact_phone', 'contact_address', 'social_linkedin', 'social_twitter'],
+        },
       },
-    },
-  });
+    });
 
-  const settingsMap = settings.reduce((acc, setting) => {
-    acc[setting.key] = setting.value;
-    return acc;
-  }, {} as Record<string, string>);
+    settingsMap = settings.reduce((acc, setting) => {
+      acc[setting.key] = setting.value;
+      return acc;
+    }, {} as Record<string, string>);
+  } catch (error) {
+    // La DB n'est pas disponible pendant le build, on utilise un objet vide
+    console.log('Database not available during build, using empty settings');
+  }
 
   const navigation = {
     legal: [

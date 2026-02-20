@@ -15,32 +15,46 @@ import { L3M_CONTENT } from "@/src/content/l3m-legacy-content";
 import { Footer } from "@/components/layout/footer";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const page = await prisma.page.findUnique({
-    where: { slug: 'home' },
-  });
+  try {
+    const page = await prisma.page.findUnique({
+      where: { slug: 'home' },
+    });
 
-  return {
-    title: page?.metaTitle || page?.title,
-    description: page?.metaDescription || page?.description || undefined,
-    keywords: page?.metaKeywords || undefined,
-    openGraph: {
+    return {
       title: page?.metaTitle || page?.title,
       description: page?.metaDescription || page?.description || undefined,
-      images: page?.ogImage ? [page.ogImage] : [],
-    },
-  };
+      keywords: page?.metaKeywords || undefined,
+      openGraph: {
+        title: page?.metaTitle || page?.title,
+        description: page?.metaDescription || page?.description || undefined,
+        images: page?.ogImage ? [page.ogImage] : [],
+      },
+    };
+  } catch (error) {
+    // Fallback si la DB n'est pas disponible pendant le build
+    return {
+      title: 'L3M Holding',
+      description: 'Investissement & Développement Stratégique',
+    };
+  }
 }
 
 export default async function HomePage() {
-  const page = await prisma.page.findUnique({
-    where: { slug: 'home' },
-    include: {
-      sections: {
-        where: { visible: true },
-        orderBy: { order: 'asc' },
+  let page = null;
+  try {
+    page = await prisma.page.findUnique({
+      where: { slug: 'home' },
+      include: {
+        sections: {
+          where: { visible: true },
+          orderBy: { order: 'asc' },
+        },
       },
-    },
-  });
+    });
+  } catch (error) {
+    // La DB n'est pas disponible pendant le build, on utilise le contenu legacy
+    console.log('Database not available during build, using legacy content');
+  }
 
   const heroSection = page?.sections.find(s => s.type === 'hero');
   const aboutSection = page?.sections.find(s => s.type === 'about');
