@@ -1,0 +1,107 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #E7E2D6; /* sand */
+  --ink: #2B1F1A;
+  --accent: #BBA437;
+  --rail: #D8D1C4;
+  --rail-dark: #C8C1B4; /* Slightly darker for borders */
+  --muted: #6E625A;
+  
+  --bg-sand: var(--bg); /* Alias pour compatibilité */
+  --background: var(--bg);
+  --foreground: var(--ink);
+}
+
+body {
+  color: var(--ink);
+  background: var(--bg-sand);
+  font-feature-settings: "kern" 1, "liga" 1;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Empêcher le scroll sur le body en desktop (le scroll se fait dans les panels) */
+@media (min-width: 1024px) {
+  body {
+    overflow: hidden;
+  }
+  
+  /* Exception pour les pages qui nécessitent le scroll (register, login, etc.) */
+  body.allow-scroll {
+    overflow: auto;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  .editorial-link {
+    @apply text-accent underline decoration-1 underline-offset-2 hover:decoration-2 transition-all duration-250;
+  }
+  
+  .editorial-accent {
+    @apply text-accent font-medium;
+  }
+  
+  .small-caps {
+    font-variant: small-caps;
+    letter-spacing: 0.1em;
+    font-size: 0.875rem;
+  }
+
+  /* Tabs Slider styles (comme Temper Group) */
+  .tabs-container {
+    overflow-x: hidden;
+    overflow-y: visible; /* Permettre le scroll vertical */
+  }
+
+  .tabs-track {
+    display: flex;
+    will-change: transform;
+  }
+
+  .tab_content {
+    flex: 0 0 100%;
+    min-height: 100vh;
+  }
+
+  /* Cacher les scrollbars tout en gardant la fonctionnalité de scroll */
+  .scrollbar-hide {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
+  }
+
+  /* Scroll personnalisé invisible mais fonctionnel */
+  .scroll-invisible {
+    overflow-y: auto;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .scroll-invisible::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+  }
+
+  .scroll-invisible::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scroll-invisible::-webkit-scrollbar-thumb {
+    background: transparent;
+  }
+}

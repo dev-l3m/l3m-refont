@@ -1,0 +1,162 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  password      String
+  name          String?
+  role          String   @default("admin")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Page {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  description String?
+  content     String?  @db.Text
+  metaTitle   String?
+  metaDescription String?
+  metaKeywords String?
+  ogImage     String?
+  published   Boolean  @default(true)
+  sections    Section[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("pages")
+}
+
+model Section {
+  id          String   @id @default(cuid())
+  pageId      String
+  page        Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  type        String   // hero, about, metrics, expertises, subsidiaries, team, news, newsletter
+  title       String?
+  subtitle    String?
+  content     String?  @db.Text
+  image       String?
+  order       Int      @default(0)
+  visible     Boolean  @default(true)
+  metadata    Json?    // Flexible JSON for section-specific data
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("sections")
+  @@index([pageId])
+}
+
+
+model SiteSettings {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  value       String   @db.Text
+  type        String   @default("text") // text, json, image
+  updatedAt   DateTime @updatedAt
+
+  @@map("site_settings")
+}
+
+model Metric {
+  id          String   @id @default(cuid())
+  label       String
+  value       String
+  suffix      String?  // %, €, M, etc.
+  description String?
+  order       Int      @default(0)
+  visible     Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("metrics")
+}
+
+model AppointmentRequest {
+  id                    String   @id @default(cuid())
+  // Step 1: Informations
+  nom                   String
+  email                 String
+  telephone             String
+  paysResidence         String
+  langues               String
+  // Step 2: Profil
+  vousEtes              String
+  projetEntrepreneurial String
+  structureLegale       String
+  // Step 3: Nature
+  titreProjet           String
+  secteurActivite       String
+  paysRegion            String
+  descriptionProjet     String   @db.Text
+  // Step 4: Vision
+  pourquoiL3M           Json     // Array of strings
+  niveauEngagement      Json     // Array of strings
+  contrepartie          String?  @db.Text
+  // Step 5: Projet
+  projetStructure       String
+  businessPlan          String
+  horizonMiseEnOeuvre   String
+  montant               String?
+  // Step 6: Ressources
+  nomEntreprise         String?
+  secteurActiviteEntreprise String?
+  objetRendezVous       String
+  creneauSouhaite       String
+  // Step 7: Message
+  message               String?  @db.Text
+  accepteDonnees         Boolean  @default(false)
+  reconnaitSelection     Boolean  @default(false)
+  // Status
+  status                String   @default("pending") // pending, reviewed, contacted, archived
+  notes                  String?  @db.Text
+  reviewedAt             DateTime?
+  reviewedBy             String?
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+
+  @@map("appointment_requests")
+  @@index([email])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model NewsletterSubscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("newsletter_subscribers")
+  @@index([email])
+  @@index([active])
+}
+
+model NewsletterCampaign {
+  id          String   @id @default(cuid())
+  subject     String
+  content     String   @db.Text
+  sentAt      DateTime?
+  sentCount   Int      @default(0)
+  status      String   @default("draft") // draft, scheduled, sent
+  scheduledAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("newsletter_campaigns")
+  @@index([status])
+  @@index([sentAt])
+}
