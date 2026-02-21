@@ -3,6 +3,8 @@ import { prisma } from "@/lib/prisma";
 import { getServerSession } from "@/lib/auth-server";
 import { z } from "zod";
 
+export const dynamic = "force-dynamic";
+
 const campaignSchema = z.object({
   subject: z.string().min(1, "Le sujet est requis"),
   content: z.string().min(1, "Le contenu est requis"),
