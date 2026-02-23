@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { L3M_CONTENT } from "@/src/content/l3m-legacy-content";
-import { Facebook } from "lucide-react";
 import { NewsletterForm } from "./newsletter-form";
 
 export async function Footer() {
@@ -11,7 +10,7 @@ export async function Footer() {
     const settings = await prisma.siteSettings.findMany({
       where: {
         key: {
-          in: ['contact_email', 'contact_phone', 'contact_address', 'social_linkedin', 'social_twitter'],
+          in: ['contact_email', 'contact_phone', 'contact_address', 'social_linkedin', 'social_facebook', 'social_twitter'],
         },
       },
     });
@@ -27,9 +26,11 @@ export async function Footer() {
 
   const navigation = {
     legal: [
-      { name: "Mentions légales", href: "/mentions-legales" },
+      { name: "FAQ", href: "/faq" },
       { name: "Politique de confidentialité", href: "/politique-confidentialite" },
-      { name: "CGU", href: "/cgu" },
+      { name: "Nos engagements / Notre charte", href: "/nos-engagements-notre-charte" },
+      { name: "Conditions Générales de Vente", href: "/conditions-generales-de-vente" },
+      { name: "Newsletter", href: "/blog-newsletter" },
     ],
   };
 
@@ -69,7 +70,9 @@ export async function Footer() {
                   rel="noopener noreferrer"
                   aria-label="Facebook"
                 >
-                  <Facebook className="h-5 w-5" />
+                  <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                  </svg>
                 </a>
               )}
             </div>

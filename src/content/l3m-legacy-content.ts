@@ -320,7 +320,7 @@ export const L3M_CONTENT = {
     title: "Contactez-nous dès maintenant",
     subtitle: "Une question ? Un projet ? Parlons-en.",
     emailLabel: "Notre Email",
-    email: "gestiondeprojets@l3m-holding.fr",
+    email: "contact@l3m-holding.fr",
     phoneLabel: "Contactez-nous",
     phone: "+33 1 84 60 38 50",
     addressLabel: "Adresse",

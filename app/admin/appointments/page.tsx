@@ -199,7 +199,7 @@ export default function AdminAppointmentsPage() {
                 <p className="text-gray-600 font-medium">Aucune demande trouvée</p>
                 <p className="text-sm text-gray-500 mt-1">
                   {selectedStatus === "all" 
-                    ? "Il n&apos;y a aucune demande pour le moment" 
+                    ? "Il n'y a aucune demande pour le moment" 
                     : `Aucune demande avec le statut "${STATUS_LABELS[selectedStatus as keyof typeof STATUS_LABELS]}"`}
                 </p>
               </CardContent>
