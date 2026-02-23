@@ -56,8 +56,8 @@ export default async function HomePage() {
     console.log('Database not available during build, using legacy content');
   }
 
-  const heroSection = page?.sections.find(s => s.type === 'hero');
-  const aboutSection = page?.sections.find(s => s.type === 'about');
+  const heroSection = page?.sections.find((s: { type: string }) => s.type === 'hero');
+  const aboutSection = page?.sections.find((s: { type: string }) => s.type === 'about');
 
   // Utiliser le contenu legacy pour le hero
   const heroTitle = L3M_CONTENT.home.hero.lines.join(" ");

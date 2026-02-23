@@ -15,7 +15,7 @@ export async function Footer() {
       },
     });
 
-    settingsMap = settings.reduce((acc, setting) => {
+    settingsMap = settings.reduce((acc: Record<string, string>, setting: { key: string; value: string }) => {
       acc[setting.key] = setting.value;
       return acc;
     }, {} as Record<string, string>);
@@ -118,20 +118,20 @@ export async function Footer() {
         </div>
         <div className="mt-16 border-t border-sand-light/20 pt-8">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-            <p className="text-xs text-sand-light/50">
-              {L3M_CONTENT.footer.copyright}
-            </p>
-            <div className="flex gap-6">
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 order-1 sm:order-2 items-center sm:items-center">
               {navigation.legal.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="text-xs text-sand-light/50 hover:text-accent transition-colors duration-250"
+                  className="text-xs text-sand-light/50 hover:text-accent transition-colors duration-250 whitespace-nowrap"
                 >
                   {item.name}
                 </Link>
               ))}
             </div>
+            <p className="text-xs text-sand-light/50 order-2 sm:order-1 text-center sm:text-left">
+              {L3M_CONTENT.footer.copyright}
+            </p>
           </div>
         </div>
       </div>

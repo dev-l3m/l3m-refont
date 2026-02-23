@@ -47,6 +47,10 @@ export default function AdminUsersPage() {
       if (response.ok) {
         const data = await response.json();
         setUsers(data.users || []);
+        // Scroll to top si le header est présent
+        if (response.headers.get("X-Scroll-To-Top") === "true") {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
       } else {
         setError("Erreur lors du chargement des utilisateurs");
       }
@@ -79,6 +83,10 @@ export default function AdminUsersPage() {
           title: "Succès",
           description: "Utilisateur supprimé avec succès",
         });
+        // Scroll to top si le header est présent
+        if (response.headers.get("X-Scroll-To-Top") === "true") {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
       } else {
         const data = await response.json();
         toast({

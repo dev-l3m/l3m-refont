@@ -28,11 +28,11 @@ export default async function SolutionsPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="min-h-[85vh] flex items-center bg-sand pt-20 lg:pt-0">
+      <section className="min-h-[85vh] flex items-center bg-sand">
         <div className="w-full max-w-7xl mx-auto px-6 lg:px-16 py-24 lg:py-32">
           <FadeIn>
             <div className="max-w-5xl">
-              <h1 className="font-serif text-hero font-medium text-ink leading-[1.05] tracking-tight mb-8">
+              <h1 className="font-serif text-4xl sm:text-5xl lg:text-hero font-medium text-ink leading-[1.05] tracking-tight mb-6 lg:mb-8">
                 {L3M_SOLUTIONS_CONTENT.header.title}
               </h1>
               <div className="space-y-6 font-sans text-lg lg:text-xl text-ink/80 leading-relaxed max-w-4xl">
@@ -169,9 +169,6 @@ export default async function SolutionsPage() {
           </FadeIn>
         </div>
       </section>
-
-      <ScrollToTop />
-      <Footer />
     </>
   );
 }

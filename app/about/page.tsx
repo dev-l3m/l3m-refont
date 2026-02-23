@@ -27,14 +27,14 @@ export default async function AboutPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="min-h-[85vh] flex items-center bg-sand pt-20 lg:pt-0">
+      <section className="min-h-[85vh] flex items-center bg-sand">
         <div className="w-full max-w-7xl mx-auto px-6 lg:px-16 py-24 lg:py-32">
           <FadeIn>
             <div className="max-w-5xl">
               <p className="small-caps text-accent mb-4 tracking-wider">
                 {L3M_ABOUT_CONTENT.header.subtitle}
               </p>
-              <h1 className="font-serif text-hero font-medium text-ink leading-[1.05] tracking-tight mb-8">
+              <h1 className="font-serif text-4xl sm:text-5xl lg:text-hero font-medium text-ink leading-[1.05] tracking-tight mb-6 lg:mb-8">
                 {L3M_ABOUT_CONTENT.header.title}
               </h1>
               <p className="font-serif text-2xl lg:text-3xl text-ink/90 leading-relaxed mb-8 font-light max-w-4xl">

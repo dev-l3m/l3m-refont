@@ -97,30 +97,30 @@ export function EditorialHero({ title, subtitle, content }: EditorialHeroProps) 
   };
 
   return (
-    <section className="min-h-[85vh] flex items-center bg-sand pt-20 lg:pt-0">
-      <div className="w-full max-w-7xl mx-auto px-6 lg:px-16 py-24 lg:py-32">
+    <section className="min-h-[85vh] flex items-center bg-sand">
+      <div className="w-full max-w-7xl mx-auto px-6 lg:px-16 py-16 lg:py-20">
         <FadeIn>
           <div className="max-w-5xl">
-            <h1 className="font-serif text-hero font-medium text-ink leading-[1.05] tracking-tight mb-8">
+            <h1 className="font-serif text-4xl sm:text-5xl lg:text-hero font-medium text-ink leading-[1.05] tracking-tight mb-6 lg:mb-8">
               {title}
             </h1>
             {subtitle && (
-              <p className="font-serif text-2xl lg:text-3xl text-ink/90 leading-relaxed mb-6 font-light max-w-4xl">
+              <p className="font-serif text-xl sm:text-2xl lg:text-3xl text-ink/90 leading-relaxed mb-4 lg:mb-6 font-light">
                 {subtitle}
               </p>
             )}
             {parsedContent && (
-              <p className="font-sans text-lg lg:text-xl text-ink/80 leading-relaxed max-w-4xl">
+              <p className="font-sans text-base sm:text-lg lg:text-xl text-ink/80 leading-relaxed">
                 {parsedContent}
               </p>
             )}
             {content && !parsedContent && (
-              <p className="font-sans text-lg lg:text-xl text-ink/80 leading-relaxed max-w-4xl">
+              <p className="font-sans text-base sm:text-lg lg:text-xl text-ink/80 leading-relaxed">
                 {content}
               </p>
             )}
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 mt-8">
+            <div className="flex flex-col sm:flex-row gap-4 mt-6 lg:mt-8">
               <a
                 href="https://l3m.factorial.fr/"
                 target="_blank"

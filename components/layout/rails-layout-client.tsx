@@ -1,11 +1,10 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useState } from "react";
-import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import { TransitionLink } from "@/components/transitions/transition-link";
 import { L3M_CONTENT } from "@/src/content/l3m-legacy-content";
+import { useState, useEffect } from "react";
 
 // Ne pas afficher les rails pour les pages admin/login et admin/register
 const ADMIN_AUTH_PAGES = ["/admin/login", "/admin/register", "/admin", "/admin/newsletter","/admin/users","/admin/settings","/admin/appointments","/admin/partnerships"];
@@ -67,7 +66,17 @@ function getLeftRailHref(pathname: string): string {
 
 export function RailsLayoutClient({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
+  
+  useEffect(() => {
+    const checkDesktop = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+    
+    checkDesktop();
+    window.addEventListener('resize', checkDesktop);
+    return () => window.removeEventListener('resize', checkDesktop);
+  }, []);
   
   // Ne pas afficher les rails pour les pages admin/login et admin/register
   if (ADMIN_AUTH_PAGES.includes(pathname)) {
@@ -145,58 +154,51 @@ export function RailsLayoutClient({ children }: { children: React.ReactNode }) {
         })}
       </aside>
 
-      {/* Mobile Header */}
-      <header className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-sand/95 backdrop-blur-sm border-b border-rail-dark/30">
-        <nav className="flex items-center justify-between px-6 py-4">
+      {/* Mobile Header - Fixed Top with Logo */}
+      <header className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-sand border-b border-rail-dark/30 safe-area-inset-top">
+        <div className="flex items-center justify-center px-4 py-3">
           <TransitionLink href="/" className="text-ink hover:opacity-80 transition-opacity duration-250">
             <Image
               src="/assets/logo/logo_l3m.png"
               alt="L3M Holding"
-              width={80}
-              height={40}
-              className="object-contain h-8"
+              width={60}
+              height={85}
+              className="object-contain"
               priority
             />
           </TransitionLink>
-          <button
-            type="button"
-            className="text-ink hover:text-accent transition-colors duration-250"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? (
-              <X className="h-6 w-6" />
-            ) : (
-              <Menu className="h-6 w-6" />
-            )}
-          </button>
-        </nav>
-        {mobileMenuOpen && (
-          <div className="border-t border-rail-dark/30 bg-sand">
-            <div className="px-6 py-4 space-y-2">
-              {navigation.map((item) => (
-                <TransitionLink
-                  key={item.name}
-                  href={item.href}
-                  className={`block py-2 text-sm font-medium transition-colors duration-250 ${
-                    pathname === item.href
-                      ? "text-accent"
-                      : "text-muted hover:text-ink"
-                  }`}
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {item.name}
-                </TransitionLink>
-              ))}
-            </div>
-          </div>
-        )}
+        </div>
       </header>
+
+      {/* Mobile Navigation - Fixed Bottom */}
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-sand border-t border-rail-dark/30 safe-area-inset-bottom">
+        <div className="flex items-center justify-center gap-2 px-3 py-2">
+          {navigation.map((item) => {
+            const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href + "/"));
+            return (
+              <TransitionLink
+                key={item.name}
+                href={item.href}
+                className={`flex-1 rounded-full px-2 py-1 text-[10px] font-medium text-center transition-all duration-250 ${
+                  isActive
+                    ? "bg-ink text-white"
+                    : "bg-rail text-ink hover:bg-rail-dark/50"
+                }`}
+              >
+                {item.name}
+              </TransitionLink>
+            );
+          })}
+        </div>
+      </nav>
 
       {/* Contenu central - Marges : gauche 64px, droite dynamique selon rails visibles */}
       <div 
-        className="flex-1 lg:ml-[64px] overflow-hidden relative h-[100svh]"
+        className="flex-1 lg:ml-[64px] overflow-y-auto relative lg:h-[100svh] lg:overflow-hidden  pb-20 lg:pt-0 lg:pb-0"
         style={{ 
-          marginRight: rightRailsWidth === 80 ? '80px' : rightRailsWidth === 160 ? '160px' : '0px'
+          marginRight: isDesktop 
+            ? (rightRailsWidth === 80 ? '80px' : rightRailsWidth === 160 ? '160px' : '0px')
+            : '0px',
         }}
       >
         {children}

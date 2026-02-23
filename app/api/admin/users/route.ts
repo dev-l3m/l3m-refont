@@ -9,10 +9,12 @@ export async function GET(request: NextRequest) {
     const user = await getSessionUser(request);
     
     if (!user || user.role !== "admin") {
-      return NextResponse.json(
+      const forbiddenResponse = NextResponse.json(
         { error: "Accès refusé" },
         { status: 403 }
       );
+      forbiddenResponse.headers.set("X-Scroll-To-Top", "true");
+      return forbiddenResponse;
     }
 
     const users = await prisma.user.findMany({
@@ -28,12 +30,16 @@ export async function GET(request: NextRequest) {
       },
     });
 
-    return NextResponse.json({ users });
+    const response = NextResponse.json({ users });
+    response.headers.set("X-Scroll-To-Top", "true");
+    return response;
   } catch (error) {
     console.error("Error fetching users:", error);
-    return NextResponse.json(
+    const errorResponse = NextResponse.json(
       { error: "Erreur lors de la récupération des utilisateurs" },
       { status: 500 }
     );
+    errorResponse.headers.set("X-Scroll-To-Top", "true");
+    return errorResponse;
   }
 }
